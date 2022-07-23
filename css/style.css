@@ -1,0 +1,64 @@
+/*
+*  html5resetcss
+*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}
+body{line-height:1}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+nav ul{list-style:none}
+blockquote,q{quotes:none}
+blockquote:before,blockquote:after,q:before,q:after{content:none}
+a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent}
+ins{background-color:#ff9;color:#000;text-decoration:none}
+mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold}
+del{text-decoration:line-through}
+abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}
+table{border-collapse:collapse;border-spacing:0}
+hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}
+input,select{vertical-align:middle}
+
+#calculator {
+    max-width: 650px;
+    display: block;
+    white-space-collapse: discard;
+}
+#calculator .button{
+    display: inline-block;
+    width: 160px;
+    height: 160px;
+    cursor: pointer;
+    margin:0;
+    padding:0;
+    border: 1px solid #444444;
+    position: relative;
+    background-color: #2b2b2b;
+    margin-top:-2px;
+    opacity:1;
+    transition: opacity 0.3s ease;
+}
+#calculator .button:hover {
+    opacity:0.85;
+}
+#calculator .simple-button-2r {
+    width: 320px;
+}
+.button-text {
+    display: block;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform-origin: center;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    color: #ffffff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 60px;
+}
+#display {
+    border: 3px solid #444444;
+    min-height: 120px;
+    min-width: 600px;
+    padding: 20px;
+    font-size: 100px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: right;
+}
