@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: inherit;
+    color: inherit;
+}
+
+:root {
+    --black: #000000;
+    --white: #ffffff;
+    --orange: #ff6f00;
+    --red: #be0000;
+}
+
+body, html {
+    font-size:32px;
+    font-family: 'Roboto', 'Arial', 'Helvetica', sans-serif;
+}
+
+.color-black {
+    background-color: var(--black);
+    color: var(--white);
+}
+.color-orange {
+    background-color: var(--orange);
+    color: var(--white);
+}
+.color-red {
+    background-color: var(--red);
+    color: var(--white);
+}
+.keypad {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    width: 12rem;
+}
+
+
+.keypad>div {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: all;
+    cursor: pointer;
+    opacity: 1;
+    transition: all 0.6s ease;
+}
+.keypad>div:hover {
+    opacity: 0.8;
+}
+.keypad>div>* {
+    pointer-events: none;
+}
+
+.size-1 {
+    min-width: 3rem;
+    height: 3rem;
+}
+.size-2 {
+    min-width: 6rem;
+    height: 3rem;
+}
+.screen {
+    min-height: 2.5rem;
+    font-size: 2rem;
+}
+.history-screen {
+    min-height: 1rem;
+    font-size: 0.7rem;
+}
+.history-screen,
+.screen {
+    min-width: calc(100% - 6px);
+    padding: 2px;
+    text-align: right;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh;
+}
+.calculator-wrapper {
+    border: 2px solid var(--black);
+    border-radius: 9px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .45);
+}
