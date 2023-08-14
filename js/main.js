@@ -105,7 +105,6 @@ class Calculator {
     // Set stage after calculation action is taken
     //======================================================
     setNewAction ( actionName, value ) {
-        this.writeInHistoryField ();
         this.directMemory.value2 = '';
         this.directMemory.value1 = value;
         this.mainScreen.innerHTML = value;
@@ -119,6 +118,7 @@ class Calculator {
     // Switch default is for usual calculation actions.
     // Non calculation actions are handeled per swich case
     doAction ( e, actionName ) {
+        this.doHistory (actionName);
         switch (actionName) {
             case 'equal':
                 if (this.directMemory.action != '') {
@@ -145,10 +145,8 @@ class Calculator {
             default:
                 if ( this.directMemory.action == '' ) {
                     this.setNewAction ( actionName, this.directMemory.value1 );
-                    this.history.push (this.directMemory.value1)
                 } else {
                     let value = this[actionName] (this.directMemory.value1, this.directMemory.value2);
-                    this.history.push (this.directMemory.value2)
                     this.setNewAction ( actionName, value );
                 }
                 break;
@@ -161,11 +159,6 @@ class Calculator {
     // Write history on screen
     //======================================================
     writeInHistoryField () {
-        console.log (this.history);
-        let actionSymbol;
-        let actionElement = this.root.querySelector ('div[name="' + this.directMemory.action + '"]')
-        if (actionElement) actionSymbol = actionElement.querySelector('p').innerHTML;
-        if ( this.history.length > 0 ) this.historyScreen.innerHTML = this.history[this.history.length - 1] + ' ' + actionSymbol + ' ' + this.directMemory.value2;
         this.historyScreen.innerHTML = '';
         this.history.forEach ( step => {
             console.log ('step is', step)
@@ -180,7 +173,34 @@ class Calculator {
     // Send every interaction to history array, will be usefull later on if i decide to expand this to have more options
     // History array is filled with small 3 step arrays for every action [first number, action, second number]
     //======================================================
+    doHistory (actionName) {
+        //Get action symbol from calc definitions
+        let actionDef = this.defs['keypad'].find( element => { return element['name'] == actionName } );
+        let action = actionDef['value'];
+        
+        let latest = []; // define an array to hold the latest action before inserting it in history array
+        if ( this.history.length > 0 && this.history[this.history.length - 1].length < 3) latest = this.history[this.history.length - 1]; // If there is unfinished calculation in history, take that as latest
+        
+        switch (latest.length){
+            case 0:
+                latest.push (Number(this.directMemory.value1));
+                latest.push (action);
+                break;
+            case 2:
+                latest.push (Number(this.directMemory.value2));
+                this.history.pop();
+                break;
+            default:
+                latest = [];
+                latest.push (Number(this.directMemory.value1));
+
+        }
+        this.history.push (latest)
+        this.writeInHistoryField ();
+    }
     //======================================================
+
+
     //======================================================
     // calculaton actions below ↓↓↓↓↓↓↓
     //======================================================
@@ -207,7 +227,6 @@ class Calculator {
 
 
 function init () {
-    calc = new Calculator ();
     calc = new Calculator ({'defs': defaultDefs, 'rootElement': document.getElementById('root')});
     calc.create ();
 }
