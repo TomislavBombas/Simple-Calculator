@@ -198,6 +198,7 @@ class Calculator {
     }
     percentage (a, b) {
         return ( b / a ) * 100
+        return ( Number(b) / Number(a) ) * 100;
     }
     // ======================================================
 }
