@@ -13,7 +13,7 @@
     --white: #ffffff;
     --orange: #ff6f00;
     --red: #be0000;
-    --shaddow: rgba (0, 0, 0, .45);
+    --shaddow: rgba(0, 0, 0, .45);
 }
 
 
@@ -26,7 +26,7 @@
         --white: #000000;
         --orange: #ff6f00;
         --red: #be0000;
-        --shaddow: rgba (255, 255, 255, .45);
+        --shaddow: rgba(255, 255, 255, .45);
     }
   }
 
