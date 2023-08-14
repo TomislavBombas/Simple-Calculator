@@ -208,6 +208,7 @@ class Calculator {
 
 function init () {
     calc = new Calculator ();
+    calc = new Calculator ({'defs': defaultDefs, 'rootElement': document.getElementById('root')});
     calc.create ();
 }
 
