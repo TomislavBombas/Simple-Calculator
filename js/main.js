@@ -1,3 +1,18 @@
+/**
+ * ToDo:
+ * Rewrite and fix calculation history. Mayble to go all in with history... Use array to enable returns...
+ * Add memory function
+ * Add keyboard use (currently is just a mouse or simple touch);
+ * Maybe add touch gestures later... If I ever have time for that
+ * think about other functionalites
+ */
+
+//======================================================
+// Basic calculator definitions: buttons ( bottom left to top right, don't judge me, I like it )
+// You can make your calculator from here
+// If you add new calculation actions, add methods in the class below
+// Method name is the same as action name in the keypad section of definitions
+//======================================================
 const defaultDefs = {
     'keypad': [
         { 'name': 'zero', 'value': 0, 'size': 1, 'color': 'black' },
@@ -22,6 +37,7 @@ const defaultDefs = {
     ],
     'width': 4
 }
+//======================================================
 
 let calc;
 
@@ -66,6 +82,10 @@ class Calculator {
             typeof(def.value) == 'number' ? btn.addEventListener('click', e => this.handleNumber (e)) : btn.addEventListener('click', e => this.doAction(e, def.name));
         });
     }
+
+    //======================================================
+    // Do his if pressed calculator key is a number, if it is an action go to doAction
+    //======================================================
     handleNumber (e) {
         let num = e.target.getAttribute('data');
         let value;
@@ -78,6 +98,12 @@ class Calculator {
         }
         this.mainScreen.innerHTML = value
     }
+    //======================================================
+
+
+    //======================================================
+    // Set stage after calculation action is taken
+    //======================================================
     setNewAction ( actionName, value ) {
         this.writeInHistoryField ();
         this.directMemory.value2 = '';
@@ -85,11 +111,20 @@ class Calculator {
         this.mainScreen.innerHTML = value;
         this.directMemory.action = actionName;
     }
+    //======================================================
+
+
+    //======================================================
+    // While default actions/calculations have dedicated methods, here we define and separate non calculation actions
+    // Switch default is for usual calculation actions.
+    // Non calculation actions are handeled per swich case
     doAction ( e, actionName ) {
         switch (actionName) {
             case 'equal':
-                let value = this[this.directMemory.action] (this.directMemory.value1, this.directMemory.value2);
-                this.setNewAction ( '', value );
+                if (this.directMemory.action != '') {
+                    let value = this[this.directMemory.action] (this.directMemory.value1, this.directMemory.value2);
+                    this.setNewAction ( '', value );
+                }
                 break;
             case 'clear':
                 this.directMemory.value2 = '';
@@ -119,13 +154,36 @@ class Calculator {
                 break;
         }
     }
+    //======================================================
+
+
+    //======================================================
+    // Write history on screen
+    //======================================================
     writeInHistoryField () {
         console.log (this.history);
         let actionSymbol;
         let actionElement = this.root.querySelector ('div[name="' + this.directMemory.action + '"]')
         if (actionElement) actionSymbol = actionElement.querySelector('p').innerHTML;
         if ( this.history.length > 0 ) this.historyScreen.innerHTML = this.history[this.history.length - 1] + ' ' + actionSymbol + ' ' + this.directMemory.value2;
+        this.historyScreen.innerHTML = '';
+        this.history.forEach ( step => {
+            console.log ('step is', step)
+            step.forEach ( ( state, index ) => {
+                this.historyScreen.innerHTML += ' ' + state;
+            } );
+        });
     }
+    //======================================================
+
+    //======================================================
+    // Send every interaction to history array, will be usefull later on if i decide to expand this to have more options
+    // History array is filled with small 3 step arrays for every action [first number, action, second number]
+    //======================================================
+    //======================================================
+    //======================================================
+    // calculaton actions below ↓↓↓↓↓↓↓
+    //======================================================
     plus (a, b) {
         return  Number(a) + Number(b);
     }
@@ -141,6 +199,7 @@ class Calculator {
     percentage (a, b) {
         return ( b / a ) * 100
     }
+    // ======================================================
 }
 
 
