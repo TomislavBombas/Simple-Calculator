@@ -52,7 +52,12 @@ let genEl = (type = 'div', attributes = {}, parent = null) => {
     if (parent) parent.appendChild (element);
     return element;
 }
+    this.setActiveInstance(wrapper);
 
+    // Click on calculator sets it as active
+    wrapper.addEventListener("click", (e) => {
+      this.setActiveInstance(wrapper);
+    });
 
 class Calculator {
     constructor ( input = { 'defs': {}, 'rootElement': document.getElementsByTagName('body')[0] } ) {
@@ -60,6 +65,16 @@ class Calculator {
         Object.values(input.defs).length == 0 ? this.defs = defaultDefs : this.defs = input.defs;
         this.root = input.rootElement;
     }
+  //======================================================
+  // Set active calculator
+  //======================================================
+  setActiveInstance(instance) {
+    let prevActive = document.querySelector(".active-calc");
+    if (prevActive) prevActive.classList.remove("active-calc");
+    instance.classList.add("active-calc");
+    activeCalc = this;
+  }
+  //======================================================
 
     directMemory = new Object;
     memory = [];
