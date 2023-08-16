@@ -2,7 +2,7 @@
 
 This is a tiny project i did on a whim. However, it is extendable, if you need more than just a simple calc.
 Working on it in my free time while I'm motivated, so no promises.
-[Preview page]('https://dkrivokapic.com/examples/calc/')
+[Preview page](https://dkrivokapic.com/examples/calc/)
 
 ## To do:
 - [ ] Full calculation history
