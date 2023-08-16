@@ -294,6 +294,16 @@ class Calculator {
       case "Escape":
         instance.querySelector('div[data="C"]').click();
         break;
+      case "Backspace":
+        let currentValue = this.mainScreen.innerHTML;
+        currentValue = currentValue.substring(0, currentValue.length - 1);
+        if (this.directMemory.action == "") {
+          this.directMemory.value1 = currentValue;
+        } else {
+          this.directMemory.value2 = currentValue;
+        }
+        this.mainScreen.innerHTML = currentValue;
+        break;
       default:
         if (
           this.defs.keypad.find((el) => {
