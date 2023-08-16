@@ -64,7 +64,7 @@ class Calculator {
 
   directMemory = new Object();
   memory = [];
-  history = [];
+  history = [["", "", ""]];
 
   create() {
     this.directMemory.value1 = "";
@@ -130,7 +130,7 @@ class Calculator {
   //======================================================
 
   //======================================================
-  // Do his if pressed calculator key is a number, if it is an action go to doAction
+  // Do his if pressed calculator key is a number, if it is an action go to do Action
   //======================================================
   handleNumber(e) {
     let num = e.target.getAttribute("data");
@@ -150,10 +150,20 @@ class Calculator {
   // Set stage after calculation action is taken
   //======================================================
   setNewAction(actionName, value) {
-    this.directMemory.value2 = "";
-    this.directMemory.value1 = value;
-    this.mainScreen.innerHTML = value;
-    this.directMemory.action = actionName;
+    let setNewValues = () => {
+      this.directMemory.value2 = "";
+      this.directMemory.value1 = value;
+      this.mainScreen.innerHTML = value;
+      this.directMemory.action = actionName;
+    };
+    if (this.directMemory.value2 != "") {
+      this.doHistory(this.directMemory.action);
+      setNewValues();
+      if (actionName != "equal") this.history.push(["="]);
+    } else {
+      setNewValues();
+      this.doHistory(actionName);
+    }
   }
   //======================================================
 
@@ -164,7 +174,7 @@ class Calculator {
   // Non calculation actions are handeled per swich case
   //======================================================
   doAction(e, actionName) {
-    this.doHistory(actionName);
+    let value;
     switch (actionName) {
       case "equal":
         if (this.directMemory.action != "") {
@@ -172,10 +182,9 @@ class Calculator {
             this.directMemory.value1,
             this.directMemory.value2
           );
-          this.setNewAction("", value);
-          this.history.push(["="]);
-          this.doHistory(actionName);
-          this.history.push(["|"]);
+          //this.doHistory("equal");
+          this.setNewAction(actionName, value);
+          return false;
         }
         break;
       case "clear":
@@ -185,6 +194,7 @@ class Calculator {
         this.historyScreen.innerHTML = 0;
         this.directMemory.action = "";
         this.history = [];
+        return false;
         break;
       case "plusminus":
         if (this.directMemory.action != "") {
@@ -194,29 +204,25 @@ class Calculator {
           this.directMemory.value1 = Number(this.directMemory.value1) * -1;
           this.mainScreen.innerHTML = this.directMemory.value1;
         }
+        return false;
         break;
       default:
-        if (this.directMemory.action == "") {
-          this.setNewAction(actionName, this.directMemory.value1);
-        }
         if (this.directMemory.value2 != "") {
-          let value = this[this.directMemory.action](
+          value = this[this.directMemory.action](
             this.directMemory.value1,
             this.directMemory.value2
           );
-          this.history.push(["="]);
-          this.setNewAction(actionName, value);
-          this.doHistory(actionName);
         } else {
-          let value = this[actionName](
+          value = this[actionName](
             this.directMemory.value1,
             this.directMemory.value2
           );
-          this.setNewAction(actionName, value);
-          this.doHistory(actionName);
         }
         break;
     }
+    value
+      ? this.setNewAction(actionName, value)
+      : this.setNewAction(actionName, this.directMemory.value1);
   }
   //======================================================
 
@@ -227,7 +233,7 @@ class Calculator {
     this.historyScreen.innerHTML = "";
     this.history.forEach((step) => {
       step.forEach((state, index) => {
-        this.historyScreen.innerHTML += " " + state;
+        if (state != 0) this.historyScreen.innerHTML += " " + state;
       });
     });
   }
@@ -253,31 +259,17 @@ class Calculator {
   doHistory(actionName) {
     let action = this.getActionSymbol(actionName);
 
-    let latest = []; // define an array to hold the latest action before inserting it in history array
-    if (
-      this.history.length > 0 &&
-      this.history[this.history.length - 1].length < 3
-    )
-      latest = this.history[this.history.length - 1]; // If there is unfinished calculation in history, take that as latest
-
-    switch (latest.length) {
-      case 0:
-        if (this.directMemory.value1 != "")
-          latest.push(Number(this.directMemory.value1));
-        latest.push(action);
-        break;
-      case 2:
-        if (this.directMemory.value2 != "")
-          latest.push(Number(this.directMemory.value2));
-        this.history.pop();
-        break;
-      default:
-        latest = [];
-        if (this.directMemory.value1 != "")
-          latest.push(Number(this.directMemory.value1));
+    let value1 = Number(this.directMemory.value1);
+    let value2 = Number(this.directMemory.value2);
+    let current = this.history[this.history.length - 1];
+    console.log("prev", current);
+    if (Number(current[2]) === 0) {
+      this.history.pop();
     }
-
-    this.history.push(latest);
+    current = [value1, action, value2];
+    if (this.history[this.history.length - 1] != current)
+      this.history.push(current);
+    console.log(this.history);
     this.writeInHistoryField();
   }
   //======================================================
