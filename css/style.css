@@ -105,7 +105,16 @@ body {
     border-radius: 9px;
     overflow: hidden;
     position: relative;
+    background-color: var(--white);
 }
 .calculator-wrapper.active-calc {
     box-shadow: 0 0 15px var(--shaddow);
+}
+
+#focus-remove {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
 }
