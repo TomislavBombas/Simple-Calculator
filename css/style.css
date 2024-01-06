@@ -62,3 +62,9 @@ input,select{vertical-align:middle}
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: right;
 }
+#current-numbers {
+    display: inline-block;
+    max-width: 1000000px;
+    width: auto;
+    transform-origin: center left;
+}
